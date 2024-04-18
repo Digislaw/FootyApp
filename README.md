@@ -7,7 +7,7 @@ Nazwa została określona jako Footy App.
 Początkowe założenia były następujące:
 - połączenie z zewnętrznym API celem uzyskania potrzebnych danych
 w formacie JSON;
-- wykorzystanie frameworka MAUI.NET [1] celem poznania nowej technologii
+- wykorzystanie frameworka MAUI.NET celem poznania nowej technologii
 i jej korzyści dla programu;
 - wyświetlanie najważniejszych informacji na temat wybranych lig krajowych;
 - pominięcie mechanizmu autoryzacji użytkownika - pojawiał się on już
