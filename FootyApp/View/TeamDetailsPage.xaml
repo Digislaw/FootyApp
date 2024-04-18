@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:FootyApp.Model"
+             x:Class="FootyApp.View.TeamDetailsPage"
+             xmlns:viewmodel="clr-namespace:FootyApp.ViewModel"
+             x:DataType="viewmodel:TeamDetailsViewModel"
+             Title="{Binding TeamName}">
+
+    <CollectionView ItemsSource="{Binding Squad}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:Player">
+                <Grid Padding="8">
+                    <Frame HeightRequest="100">
+                        <HorizontalStackLayout Padding="4" Spacing="16">
+                            <Image Source="{Binding Photo}" WidthRequest="64" HeightRequest="64" Aspect="AspectFill" />
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}" FontSize="24" VerticalTextAlignment="Center" />
+                                <Label FontSize="16">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Number, TargetNullValue='-'}" />
+                                            <Span Text="    " />
+                                            <Span Text="{Binding Position}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </VerticalStackLayout>
+
+                        </HorizontalStackLayout>
+                    </Frame>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

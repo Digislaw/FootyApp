@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:FootyApp.Model"
+             xmlns:viewmodel="clr-namespace:FootyApp.ViewModel"
+             x:DataType="viewmodel:LeagueViewModel"
+             x:Class="FootyApp.MainPage"
+             Title="">
+
+    <Grid ColumnDefinitions="*" ColumnSpacing="8" RowDefinitions="Auto, *">
+
+        <VerticalStackLayout Grid.Row="0">
+            <Picker Title="League" Grid.Row="0"
+                ItemsSource="{Binding Leagues}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding League, Mode=TwoWay}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                    EventName="SelectedIndexChanged"
+                    Command="{Binding GetStandingsCommand}"
+                    CommandParameter="{Binding League}"/>
+                </Picker.Behaviors>
+            </Picker>
+
+            <Grid ColumnDefinitions="Auto, Auto, *, Auto, Auto, Auto" ColumnSpacing="8">
+
+                <Label Text="#" FontSize="16" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                   WidthRequest="18" Margin="8, 0, 2, 0"
+                                   Grid.Row="0" Grid.Column="0"/>
+
+                <Label Text="Club" FontSize="16" VerticalTextAlignment="Center"
+                                   Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"/>
+
+                <Label Text="W/D/L" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="64" 
+                                   Grid.Row="0" Grid.Column="3"/>
+
+                <Label Text="Pts" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="24" 
+                                   Grid.Row="0" Grid.Column="4"/>
+
+                <Label Text="Diff" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="32" 
+                                   Grid.Row="0" Grid.Column="5"/>
+
+            </Grid>
+        </VerticalStackLayout>
+        
+
+        <CollectionView ItemsSource="{Binding Standings}" SelectionMode="None" Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Standing">
+                    <ContentView HeightRequest="64">
+                        <Grid ColumnDefinitions="Auto, Auto, *, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="8"
+                              VerticalOptions="Center" >
+    
+                            <!-- Pozycja w tabeli -->
+                            <Label Text="{Binding Rank}" FontSize="16" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                   WidthRequest="18" Margin="8, 0, 2, 0"
+                                   Grid.Row="0" Grid.Column="0"/>
+                            
+                            <!-- Logo klubu -->
+                            <Image Source="{Binding Team.Logo}" WidthRequest="24" HeightRequest="24" Aspect="AspectFill"
+                                   Grid.Row="0" Grid.Column="1"/>
+                            
+                            <!-- Nazwa klubu -->
+                            <Label Text="{Binding Team.Name}" FontSize="16" VerticalTextAlignment="Center"
+                                   Grid.Row="0" Grid.Column="2"/>
+
+                            <!-- Liczba wygranych meczy -->
+                            <Label Text="{Binding All.Win}" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="18"
+                                   Grid.Row="0" Grid.Column="3"/>
+
+                            <!-- Liczba zremisowanych meczy -->
+                            <Label Text="{Binding All.Draw}" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="18" 
+                                   Grid.Row="0" Grid.Column="4"/>
+
+                            <!-- Liczba przegranych meczy -->
+                            <Label Text="{Binding All.Lose}" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="18"
+                                   Grid.Row="0" Grid.Column="5"/>
+
+                            <!-- Suma punktów -->
+                            <Label Text="{Binding Points}" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="18"  Margin="16, 0, 8, 0"
+                                   Grid.Row="0" Grid.Column="6"/>
+
+                            <!-- Różnica bramek -->
+                            <Label Text="{Binding GoalsDiff}" FontSize="16" VerticalTextAlignment="Center"
+                                    WidthRequest="24" 
+                                   Grid.Row="0" Grid.Column="7"/>
+
+
+                        </Grid>
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LeagueViewModel}}, 
+                                                Path=GoToDetailsCommand}"
+                                                CommandParameter="{Binding Team}" />
+                     </ContentView.GestureRecognizers>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                           HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                           Grid.Row="0"/>
+    </Grid>
+    
+
+</ContentPage>
